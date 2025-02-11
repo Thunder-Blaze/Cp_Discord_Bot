@@ -1,4 +1,4 @@
-const { executeQuery } = require('../database/database');
+import { executeQuery } from './database.js';
 
 async function getEntryByPlatformMemID(platform, memId) {
     try {

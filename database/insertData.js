@@ -1,4 +1,4 @@
-import { db } from './database';
+import { db } from './database.js';
 
 function insertEntry(memId, userName, platform, rating, tag) {
     const query = `INSERT INTO users (memid, username, platform, rating, tag) VALUES (?, ?)`;

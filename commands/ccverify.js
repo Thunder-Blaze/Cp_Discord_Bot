@@ -1,8 +1,8 @@
 import puppeteer from 'puppeteer'
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { insertEntry } from '../database/insertData'
-import { getEntryByPlatformMemID } from '../database/fetchData'
-import { updateEntryByPlatformMemID } from '../database/updateData'
+import { insertEntry } from '../database/insertData.js'
+import { getEntryByPlatformMemID } from '../database/fetchData.js'
+import { updateEntryByPlatformMemID } from '../database/updateData.js'
 
 
 async function delay(ms) {

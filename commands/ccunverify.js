@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { getEntryByPlatformMemID } from '../database/fetchData'
-import { deleteEntry } from '../database/deleteData'
+import { getEntryByPlatformMemID } from '../database/fetchData.js'
+import { deleteEntry } from '../database/deleteData.js'
 
 export default {
     data: new SlashCommandBuilder()
