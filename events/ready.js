@@ -14,7 +14,7 @@ export default {
             memid TEXT,\
             username TEXT,\
             platform TEXT,\
-            rating INTEGER,\
+            rating TEXT,\
             tag TEXT,\
             UNIQUE (username, platform))'
             , (err) => {

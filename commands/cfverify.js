@@ -62,6 +62,7 @@ export default {
             }
 
             let roleName = ''
+            let rating = 0
 
             try {
                 const tempApiUrl = `https://codeforces.com/api/user.info?handles=${handle}`
@@ -69,8 +70,10 @@ export default {
                 let tempData = await tempResponse.json()
                 if (!tempData.result[0].rank) {
                     roleName = 'unrated'
+                    rating = 0
                 } else {
                     roleName = tempData.result[0].rank.toLowerCase()
+                    rating = tempData.result[0].rating
                 }
             } catch {
                 return await interaction.editReply(
@@ -105,10 +108,11 @@ export default {
                 )
             }
 
-            if (getEntryByPlatformMemID('codeforces', member.id)) {
-                updateEntryByPlatformMemID(handle, rating, role, 'codeforces', member.id)
+            const user = await getEntryByPlatformMemID('codeforces', member.id);
+            if (user && user.platform == 'codeforces') {
+                updateEntryByPlatformMemID(handle, rating, roleName, 'codeforces', member.id)
             } else {
-                insertEntry(member.id, handle, 'codeforces', rating, role);
+                insertEntry(member.id, handle, 'codeforces', rating, roleName);
             }
 
             roleTypes.forEach(async (element) => {

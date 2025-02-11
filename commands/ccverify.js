@@ -111,11 +111,12 @@ export default {
                     `You already have the \`CodeChef Verified\` role.`
                 )
             }
-
-            if (getEntryByPlatformMemID('codechef', member.id)) {
-                updateEntryByPlatformMemID(handle, rating, role, 'codechef', member.id)
+            
+            const user = await getEntryByPlatformMemID('codechef', member.id);
+            if (user && user.platform == 'codechef') {
+                updateEntryByPlatformMemID(handle, rating, roleName, 'codechef', member.id)
             } else {
-                insertEntry(member.id, handle, 'codechef', rating, role);
+                insertEntry(member.id, handle, 'codechef', rating, roleName);
             }
 
             roleTypes.forEach(async (element) => {
