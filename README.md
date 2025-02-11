@@ -3,7 +3,7 @@
 ## Overview
 - Currently Supports Codechef and Codeforces
 - This bot fetches user data from cp platforms and display it on discord.
-- This bot also verifies Codeforces users on Discord by checking their submissions and assigning them roles based on their rank.
+- This bot also verifies Codeforces & CodeChef users on Discord by checking their submissions and assigning them roles based on their titles.
 
 ## Features
 

@@ -21,6 +21,12 @@ const commands = [
                 .setDescription('CodeChef Username')
                 .setRequired(true)
         ),
+    new SlashCommandBuilder().setName('ccverify').setDescription('Verifies your CodeChef account and assigns the CodeChef role')
+        .addStringOption(option =>
+            option.setName('id')
+                .setDescription('CodeChef Username')
+                .setRequired(true)
+        ),
     new SlashCommandBuilder().setName('cfuserinfo').setDescription('Prints info for the given CodeForces username')
         .addStringOption(option =>
             option.setName('id')
