@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node deploy-commands.js && nodemon --exitcrash index.js",
+    "start": "node deploy-commands.js && nodemon index.js",
     "devStart": "nodemon index.js",
     "deploy": "node deploy-commands.js",
     "cleardb": "node .\\database\\cleardb.js",
