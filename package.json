@@ -6,6 +6,7 @@
     "start": "node index.js",
     "devStart": "nodemon index.js",
     "deploy": "node deploy-commands.js",
+    "format": "npx prettier . --write",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -21,7 +22,13 @@
     "dotenv": "^16.4.7",
     "node-fetch": "^3.3.2",
     "nodemon": "^3.1.9",
+    "prettier": "^3.5.0",
     "puppeteer": "^24.2.0",
     "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.20.0",
+    "eslint": "^9.20.0",
+    "globals": "^15.14.0"
   }
 }

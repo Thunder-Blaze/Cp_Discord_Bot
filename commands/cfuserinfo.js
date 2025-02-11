@@ -41,14 +41,18 @@ export default {
                 const tempResponse = await fetch(tempApiUrl);
                 let tempData = await tempResponse.json();
                 solvedProblems = tempData.result.filter((submission) => submission.verdict === 'OK').length;
-            } catch (error) {}
+            } catch (error) {
+                console.log(error);
+            }
 
             try {
                 const tempApiUrl = `https://codeforces.com/api/user.rating?handle=${handle}`;
                 const tempResponse = await fetch(tempApiUrl);
                 let tempData = await tempResponse.json();
                 contestsGiven = tempData.result.length;
-            } catch (error) {}
+            } catch (error) {
+                console.log(error);
+            }
 
             // Create the embed to send as a reply
             const embed = {

@@ -51,7 +51,7 @@ export default {
                 const tempResponse = await fetch(tempApiUrl);
                 let tempData = await tempResponse.json();
                 roleName = tempData.result[0].rank.toLowerCase();
-            } catch (error) {
+            } catch {
                 return await interaction.editReply(`An error occurred while verifying the CodeForces account. Please try again.`);
             }
 
