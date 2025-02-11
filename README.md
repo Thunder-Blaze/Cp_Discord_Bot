@@ -11,8 +11,10 @@
 - Users can verify their Codeforces account using `/cfverify <handle>` and get assigned the respective rank role.
 - You can fetch Codeforce's Profile's Image using `/cfuserpfp <handle>`.
 - Retrieves and displays Codeforces user stats via `/cfuserinfo <handle>`.
+- Retrieves Detailed Data about Solved Questions by the user using `/cfusersolved <handle>`.
 
 #### CodeChef
+- Users can verify their CodeChef account using `/ccverify <handle>` and get assigned the respective rank role.
 - You can fetch Codeforce's Profile's Image using `/ccuserpfp <handle>`.
 - Retrieves and displays user stats via `/ccuserinfo <handle>`.
 
