@@ -4,6 +4,6 @@ export default {
         description: 'Say hello!',
     },
     async execute(interaction) {
-        await interaction.reply('Hello! How can I help you today?');
+        await interaction.reply('Hello! How can I help you today?')
     },
-};
+}

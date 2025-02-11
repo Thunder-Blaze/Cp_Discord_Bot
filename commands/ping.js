@@ -4,6 +4,6 @@ export default {
         description: 'Ping the bot!',
     },
     async execute(interaction) {
-        await interaction.reply('Pong!');
+        await interaction.reply('Pong!')
     },
-};
+}

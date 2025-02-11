@@ -1,57 +1,72 @@
-import fetch from 'node-fetch';
-import { SlashCommandBuilder } from '@discordjs/builders';
+import fetch from 'node-fetch'
+import { SlashCommandBuilder } from '@discordjs/builders'
 
 export default {
     data: new SlashCommandBuilder()
-        .setName('cfuserinfo')  // Command name
+        .setName('cfuserinfo') // Command name
         .setDescription('Prints info for the given CodeForces username')
-        .addStringOption(option =>
-            option.setName('id')
+        .addStringOption((option) =>
+            option
+                .setName('id')
                 .setDescription('CodeForces Username')
                 .setRequired(true)
         ),
     async execute(interaction) {
-        await interaction.deferReply();
+        await interaction.deferReply()
         // Get the handle input from the user
-        const handle = interaction.options.getString('id');
-        
+        const handle = interaction.options.getString('id')
+
         // Make the API request to get CodeForces user data
-        const apiUrl = `https://codeforces.com/api/user.info?handles=${handle}`;
+        const apiUrl = `https://codeforces.com/api/user.info?handles=${handle}`
         try {
-            const response = await fetch(apiUrl);
-            let data = await response.json();
-            
+            const response = await fetch(apiUrl)
+            let data = await response.json()
+
             // Check if the API returned a valid response
             if (!data || data.error) {
-                return await interaction.editReply(`Could not find data for handle: \`${handle}\`. Please check the handle and try again.`);
+                return await interaction.editReply(
+                    `Could not find data for handle: \`${handle}\`. Please check the handle and try again.`
+                )
             }
 
-            data = data.result[0];
+            data = data.result[0]
 
             // Extract useful data from the response
-            const { firstName, lastName, rating, maxRating, rank, maxRank, titlePhoto } = data;
-            const name = firstName + ' ' + lastName;
-            const pfpUrl = titlePhoto || 'https://i.pinimg.com/originals/69/40/7f/69407fe3a7697fa29e1b3b6e96ca22de.jpg'; // Use a default pfp if none is provided
+            const {
+                firstName,
+                lastName,
+                rating,
+                maxRating,
+                rank,
+                maxRank,
+                titlePhoto,
+            } = data
+            const name = firstName + ' ' + lastName
+            const pfpUrl =
+                titlePhoto ||
+                'https://i.pinimg.com/originals/69/40/7f/69407fe3a7697fa29e1b3b6e96ca22de.jpg' // Use a default pfp if none is provided
 
-            let solvedProblems = 0;
-            let contestsGiven = 0;
+            let solvedProblems = 0
+            let contestsGiven = 0
 
             try {
-                const tempApiUrl = `https://codeforces.com/api/user.status?handle=${handle}`;
-                const tempResponse = await fetch(tempApiUrl);
-                let tempData = await tempResponse.json();
-                solvedProblems = tempData.result.filter((submission) => submission.verdict === 'OK').length;
+                const tempApiUrl = `https://codeforces.com/api/user.status?handle=${handle}`
+                const tempResponse = await fetch(tempApiUrl)
+                let tempData = await tempResponse.json()
+                solvedProblems = tempData.result.filter(
+                    (submission) => submission.verdict === 'OK'
+                ).length
             } catch (error) {
-                console.log(error);
+                console.log(error)
             }
 
             try {
-                const tempApiUrl = `https://codeforces.com/api/user.rating?handle=${handle}`;
-                const tempResponse = await fetch(tempApiUrl);
-                let tempData = await tempResponse.json();
-                contestsGiven = tempData.result.length;
+                const tempApiUrl = `https://codeforces.com/api/user.rating?handle=${handle}`
+                const tempResponse = await fetch(tempApiUrl)
+                let tempData = await tempResponse.json()
+                contestsGiven = tempData.result.length
             } catch (error) {
-                console.log(error);
+                console.log(error)
             }
 
             // Create the embed to send as a reply
@@ -69,12 +84,12 @@ export default {
                     },
                     {
                         name: 'Current Rating',
-                        value: rating.toString() + " (" + rank +")", // Rating is usually a number
+                        value: rating.toString() + ' (' + rank + ')', // Rating is usually a number
                         inline: false,
                     },
                     {
                         name: 'Max Rating',
-                        value: maxRating.toString() + " (" + maxRank +")", // Rating is usually a number
+                        value: maxRating.toString() + ' (' + maxRank + ')', // Rating is usually a number
                         inline: false,
                     },
                     {
@@ -91,14 +106,15 @@ export default {
                 footer: {
                     text: 'Data fetched from CodeForces API',
                 },
-            };
+            }
 
             // Send the embed as a reply
-            await interaction.editReply({ embeds: [embed] });
-
+            await interaction.editReply({ embeds: [embed] })
         } catch (error) {
-            console.error(error);
-            await interaction.editReply('There was an error while fetching the data from CodeForces. Please try again later.');
+            console.error(error)
+            await interaction.editReply(
+                'There was an error while fetching the data from CodeForces. Please try again later.'
+            )
         }
     },
-};
+}

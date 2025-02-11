@@ -1,113 +1,153 @@
-import fetch from 'node-fetch';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { ActionRowBuilder, ButtonBuilder } from 'discord.js';
+import fetch from 'node-fetch'
+import { SlashCommandBuilder } from '@discordjs/builders'
+import { ActionRowBuilder, ButtonBuilder } from 'discord.js'
 
 export default {
     data: new SlashCommandBuilder()
         .setName('cfusersolved')
-        .setDescription('Prints detailed info for the given CodeForces username')
-        .addStringOption(option =>
-            option.setName('id')
+        .setDescription(
+            'Prints detailed info for the given CodeForces username'
+        )
+        .addStringOption((option) =>
+            option
+                .setName('id')
                 .setDescription('CodeForces Username')
                 .setRequired(true)
         ),
     async execute(interaction) {
-        await interaction.deferReply();
-        const handle = interaction.options.getString('id');
-        
+        await interaction.deferReply()
+        const handle = interaction.options.getString('id')
+
         try {
             // Fetch user info
-            const userResponse = await fetch(`https://codeforces.com/api/user.info?handles=${handle}`);
-            const userData = await userResponse.json();
+            const userResponse = await fetch(
+                `https://codeforces.com/api/user.info?handles=${handle}`
+            )
+            const userData = await userResponse.json()
             if (!userData || userData.status !== 'OK') {
-                return await interaction.editReply(`Could not find data for handle: \`${handle}\`.`);
+                return await interaction.editReply(
+                    `Could not find data for handle: \`${handle}\`.`
+                )
             }
-            const user = userData.result[0];
-            
+            const user = userData.result[0]
+
             // Fetch user submissions
-            const submissionsResponse = await fetch(`https://codeforces.com/api/user.status?handle=${handle}`);
-            const submissionsData = await submissionsResponse.json();
+            const submissionsResponse = await fetch(
+                `https://codeforces.com/api/user.status?handle=${handle}`
+            )
+            const submissionsData = await submissionsResponse.json()
             if (!submissionsData || submissionsData.status !== 'OK') {
-                return await interaction.editReply(`Could not fetch submissions for: \`${handle}\`.`);
+                return await interaction.editReply(
+                    `Could not fetch submissions for: \`${handle}\`.`
+                )
             }
-            
-            let solvedProblems = new Set();
-            let difficultyCount = {};
-            let topicCount = {};
-            
-            submissionsData.result.forEach(submission => {
+
+            let solvedProblems = new Set()
+            let difficultyCount = {}
+            let topicCount = {}
+
+            submissionsData.result.forEach((submission) => {
                 if (submission.verdict === 'OK') {
-                    const problemId = `${submission.problem.contestId}-${submission.problem.index}`;
-                    solvedProblems.add(problemId);
-                    
+                    const problemId = `${submission.problem.contestId}-${submission.problem.index}`
+                    solvedProblems.add(problemId)
+
                     // Count problems by difficulty
                     if (submission.problem.rating) {
-                        difficultyCount[submission.problem.rating] = (difficultyCount[submission.problem.rating] || 0) + 1;
+                        difficultyCount[submission.problem.rating] =
+                            (difficultyCount[submission.problem.rating] || 0) +
+                            1
                     }
-                    
+
                     // Count problems by topic
                     if (submission.problem.tags) {
-                        submission.problem.tags.forEach(tag => {
-                            topicCount[tag] = (topicCount[tag] || 0) + 1;
-                        });
+                        submission.problem.tags.forEach((tag) => {
+                            topicCount[tag] = (topicCount[tag] || 0) + 1
+                        })
                     }
                 }
-            });
-            
+            })
+
             const difficultyFields = Object.entries(difficultyCount)
                 .sort((a, b) => a[0] - b[0])
-                .map(([difficulty, count]) => ({ name: `Difficulty ${difficulty}`, value: count.toString(), inline: false }));
-            
+                .map(([difficulty, count]) => ({
+                    name: `Difficulty ${difficulty}`,
+                    value: count.toString(),
+                    inline: false,
+                }))
+
             const topicFields = Object.entries(topicCount)
                 .sort((a, b) => b[1] - a[1])
-                .map(([topic, count]) => ({ name: topic, value: count.toString(), inline: true }));
-            
+                .map(([topic, count]) => ({
+                    name: topic,
+                    value: count.toString(),
+                    inline: true,
+                }))
+
             const baseEmbed = {
                 color: 0x0099ff,
                 thumbnail: { url: user.titlePhoto },
-                footer: { text: 'Data fetched from CodeForces API' }
-            };
-            
-            let currentPage = 0;
+                footer: { text: 'Data fetched from CodeForces API' },
+            }
+
+            let currentPage = 0
             const embeds = [
-                { 
+                {
                     title: `CodeForces Difficulty Wise Stats for ${handle}`,
                     ...baseEmbed,
-                    fields: difficultyFields
+                    fields: difficultyFields,
                 },
                 {
                     title: `CodeForces Topic Wise Stats for ${handle}`,
                     ...baseEmbed,
-                    fields: topicFields
-                }
-            ];
-            
+                    fields: topicFields,
+                },
+            ]
+
             const buttons = new ActionRowBuilder().addComponents(
-                new ButtonBuilder().setCustomId('prev').setLabel('⬅️ Prev').setStyle('Primary'),
-                new ButtonBuilder().setCustomId('next').setLabel('Next ➡️').setStyle('Primary')
-            );
-            
-            const message = await interaction.editReply({ embeds: [embeds[currentPage]], components: [buttons] });
-            
-            const filter = i => ['prev', 'next'].includes(i.customId) && i.user.id === interaction.user.id;
-            const collector = message.createMessageComponentCollector({ filter, time: 60000 });
-            
-            collector.on('collect', async i => {
+                new ButtonBuilder()
+                    .setCustomId('prev')
+                    .setLabel('⬅️ Prev')
+                    .setStyle('Primary'),
+                new ButtonBuilder()
+                    .setCustomId('next')
+                    .setLabel('Next ➡️')
+                    .setStyle('Primary')
+            )
+
+            const message = await interaction.editReply({
+                embeds: [embeds[currentPage]],
+                components: [buttons],
+            })
+
+            const filter = (i) =>
+                ['prev', 'next'].includes(i.customId) &&
+                i.user.id === interaction.user.id
+            const collector = message.createMessageComponentCollector({
+                filter,
+                time: 60000,
+            })
+
+            collector.on('collect', async (i) => {
                 if (i.customId === 'prev') {
-                    currentPage = (currentPage - 1 + embeds.length) % embeds.length;
+                    currentPage =
+                        (currentPage - 1 + embeds.length) % embeds.length
                 } else {
-                    currentPage = (currentPage + 1) % embeds.length;
+                    currentPage = (currentPage + 1) % embeds.length
                 }
-                await i.update({ embeds: [embeds[currentPage]], components: [buttons] });
-            });
-            
+                await i.update({
+                    embeds: [embeds[currentPage]],
+                    components: [buttons],
+                })
+            })
+
             collector.on('end', async () => {
-                await message.edit({ components: [] });
-            });
-            
+                await message.edit({ components: [] })
+            })
         } catch (error) {
-            console.error(error);
-            await interaction.editReply('Error fetching data from CodeForces. Please try again later.');
+            console.error(error)
+            await interaction.editReply(
+                'Error fetching data from CodeForces. Please try again later.'
+            )
         }
     },
-};
+}
