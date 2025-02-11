@@ -17,17 +17,26 @@ export default {
         // Get the handle input from the user
         let handle = interaction.options.getString('id') // Get username if provided
         const userId = interaction.user.id // Discord User ID
-        const repliedUser = interaction.options.getUser('message_reference') // If command is used as a reply
 
         // If no ID is provided, fetch associated username from the database
         if (!handle) {
-            let targetId = repliedUser ? repliedUser.id : userId // Check if replying to a user, else use the command sender
-            const row = await getEntryByPlatformMemID('codechef', targetId)
+            const row = await getEntryByPlatformMemID('codechef', userId)
 
             if (row) {
                 handle = row.username
             } else {
-                return await interaction.editReply('No associated Codechef username found for this user.')
+                return await interaction.editReply('No associated CodeChef username found for this user.')
+            }
+        }
+
+        if (handle[0]=='<'){
+            handle = handle.slice(2).slice(0,-1);
+            const row = await getEntryByPlatformMemID('codechef', handle)
+
+            if (row) {
+                handle = row.username
+            } else {
+                return await interaction.editReply('No associated CodeChef username found for this user.')
             }
         }
 

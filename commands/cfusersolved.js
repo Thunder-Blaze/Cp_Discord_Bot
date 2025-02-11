@@ -20,26 +20,25 @@ export default {
         let handle = interaction.options.getString('id') // Get username if provided
         const userId = interaction.user.id // Discord User ID
         
-        if (handle[0]=='@'){
-            handle = handle.slice(1);
-            const members = await interaction.guild.members.fetch();
-            const member = members.find(m => m.user.username === handle);
-            if (member) {
-                handle = member.user.id;
-            } else {
-                return await interaction.editReply('No associated Codeforces username found for this user.');
-            }
-        }
-
         // If no ID is provided, fetch associated username from the database
         if (!handle) {
-            let targetId = repliedUser ? repliedUser.id : userId // Check if replying to a user, else use the command sender
-            const row = await getEntryByPlatformMemID('codechef', targetId)
+            const row = await getEntryByPlatformMemID('codeforces', userId)
 
             if (row) {
                 handle = row.username
             } else {
-                return await interaction.editReply('No associated Codechef username found for this user.')
+                return await interaction.editReply('No associated Codeforces username found for this user.')
+            }
+        }
+
+        if (handle[0]=='<'){
+            handle = handle.slice(2).slice(0,-1);
+            const row = await getEntryByPlatformMemID('codeforces', handle)
+
+            if (row) {
+                handle = row.username
+            } else {
+                return await interaction.editReply('No associated Codeforces username found for this user.')
             }
         }
 
