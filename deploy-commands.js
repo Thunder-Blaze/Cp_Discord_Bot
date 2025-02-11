@@ -33,6 +33,12 @@ const commands = [
                 .setDescription('CodeForces Username')
                 .setRequired(true)
         ),
+    new SlashCommandBuilder().setName('cfusersolved').setDescription('Prints detailed info for the given CodeForces username')
+        .addStringOption(option =>
+            option.setName('id')
+                .setDescription('CodeForces Username')
+                .setRequired(true)
+        ),
     new SlashCommandBuilder().setName('cfverify').setDescription('Verifies your CodeForces account and assigns the CodeForces role')
         .addStringOption(option =>
             option.setName('id')

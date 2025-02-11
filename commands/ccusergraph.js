@@ -11,13 +11,14 @@ export default {
                 .setRequired(true)
         ),
     async execute(interaction) {
+        await interaction.deferReply();
         // Get the handle input from the user
         const handle = interaction.options.getString('id');
         
         // Make the API request to get CodeChef user data
         const graphUrl = `https://codechef-api.vercel.app/rating/${handle}`;
         
-        await interaction.reply({ 
+        await interaction.editReply({ 
             content: 'Here is the PFP for the given CodeChef username:',
             files: [graphUrl],
         });

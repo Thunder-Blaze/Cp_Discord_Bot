@@ -11,6 +11,7 @@ export default {
                 .setRequired(true)
         ),
     async execute(interaction) {
+        await interaction.deferReply();
         // Get the handle input from the user
         const handle = interaction.options.getString('id');
         
@@ -22,23 +23,23 @@ export default {
             
             // Check if the API returned a valid response
             if (!data || data.error || !data.result) {
-                return await interaction.reply(`Could not find data for handle: \`${handle}\`. Please check the handle and try again.`);
+                return await interaction.editReply(`Could not find data for handle: \`${handle}\`. Please check the handle and try again.`);
             }
 
             data = data.result[0];
 
-            if (!data.titlePhoto) return await interaction.reply(`Could not find PFP for handle: \`${handle}\`.`);
+            if (!data.titlePhoto) return await interaction.editReply(`Could not find PFP for handle: \`${handle}\`.`);
             
             const { titlePhoto } = data;
             // Send the embed as a reply
-            await interaction.reply({ 
+            await interaction.editReply({ 
                 content: 'Here is the PFP for the given CodeForces username:',
                 files: [titlePhoto],
              });
 
         } catch (error) {
             console.error(error);
-            await interaction.reply('There was an error while fetching the PFP from CodeChef.');
+            await interaction.editReply('There was an error while fetching the PFP from CodeChef.');
         }
     },
 };

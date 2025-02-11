@@ -15,12 +15,13 @@ export default {
                 .setRequired(true)
         ),
     async execute(interaction) {
+        await interaction.deferReply();
         // Get the handle input from the user
         const handle = interaction.options.getString('id');
         const apiUrl = `https://codeforces.com/api/user.status?handle=${handle}`;
         
         const currTime = Date.now()/1000;
-        interaction.reply(`Submit a Compilation Error within 1 minute...`);
+        interaction.editReply(`Submit a Compilation Error within 1 minute...`);
         await delay(60000);
 
         // const validRoles = ['newbie', 'pupil', 'specialist', 'expert', 'candidate master', 'master', 'international master', 'grandmaster', 'international grandmaster', 'legendary grandmaster'];

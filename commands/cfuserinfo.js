@@ -11,6 +11,7 @@ export default {
                 .setRequired(true)
         ),
     async execute(interaction) {
+        await interaction.deferReply();
         // Get the handle input from the user
         const handle = interaction.options.getString('id');
         
@@ -22,7 +23,7 @@ export default {
             
             // Check if the API returned a valid response
             if (!data || data.error) {
-                return await interaction.reply(`Could not find data for handle: \`${handle}\`. Please check the handle and try again.`);
+                return await interaction.editReply(`Could not find data for handle: \`${handle}\`. Please check the handle and try again.`);
             }
 
             data = data.result[0];
@@ -89,11 +90,11 @@ export default {
             };
 
             // Send the embed as a reply
-            await interaction.reply({ embeds: [embed] });
+            await interaction.editReply({ embeds: [embed] });
 
         } catch (error) {
             console.error(error);
-            await interaction.reply('There was an error while fetching the data from CodeForces. Please try again later.');
+            await interaction.editReply('There was an error while fetching the data from CodeForces. Please try again later.');
         }
     },
 };
