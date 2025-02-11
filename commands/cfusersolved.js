@@ -64,26 +64,27 @@ export default {
             
             const baseEmbed = {
                 color: 0x0099ff,
-                title: `${handle}'s CodeForces Profile`,
                 thumbnail: { url: user.titlePhoto },
-                fields: [
-                    { name: 'Name', value: user.firstName || 'N/A', inline: false },
-                    { name: 'Current Rating', value: `${user.rating || 'N/A'} (${user.rank || 'N/A'})`, inline: false },
-                    { name: 'Max Rating', value: `${user.maxRating || 'N/A'} (${user.maxRank || 'N/A'})`, inline: false },
-                    { name: 'Problems Solved', value: solvedProblems.size.toString(), inline: false }
-                ],
                 footer: { text: 'Data fetched from CodeForces API' }
             };
             
             let currentPage = 0;
             const embeds = [
-                { ...baseEmbed, fields: difficultyFields },
-                { ...baseEmbed, fields: topicFields }
+                { 
+                    title: `CodeForces Difficulty Wise Stats for ${handle}`,
+                    ...baseEmbed,
+                    fields: difficultyFields
+                },
+                {
+                    title: `CodeForces Topic Wise Stats for ${handle}`,
+                    ...baseEmbed,
+                    fields: topicFields
+                }
             ];
             
             const buttons = new ActionRowBuilder().addComponents(
-                new ButtonBuilder().setCustomId('prev').setLabel('⬅️').setStyle('Primary'),
-                new ButtonBuilder().setCustomId('next').setLabel('➡️').setStyle('Primary')
+                new ButtonBuilder().setCustomId('prev').setLabel('⬅️ Prev').setStyle('Primary'),
+                new ButtonBuilder().setCustomId('next').setLabel('Next ➡️').setStyle('Primary')
             );
             
             const message = await interaction.editReply({ embeds: [embeds[currentPage]], components: [buttons] });

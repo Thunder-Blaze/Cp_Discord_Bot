@@ -53,7 +53,7 @@ export default {
             // Create the embed to send as a reply
             const embed = {
                 color: 0x0099ff, // Embed color
-                title: `${handle}'s CodeForces Profile`,
+                title: `CodeForces Stats for ${handle}`,
                 thumbnail: {
                     url: pfpUrl, // Set the profile picture as thumbnail
                 },
