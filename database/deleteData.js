@@ -1,14 +1,14 @@
 import { db } from './database.js';
 
 function deleteEntry(memId, platform) {
-    const query = `DELETE FROM users WHERE memid=? AND platform=?)`;
-    db.run(query, [memId, platform], function(err) {
+    const query = `DELETE FROM users WHERE memid=? AND platform=?`;
+    return db.run(query, [memId, platform], function(err) {
         if (err) {
             console.error('Error deleting Entry:', err.message);
-            return true;
+            return false;
         } else {
             console.log(`Entry deleted`);
-            return false;
+            return true;
         }
     });
 }
