@@ -1,10 +1,11 @@
 {
-  "name": "codechefdiscordbot",
+  "name": "cpdiscordbot",
   "version": "1.0.0",
-  "main": "bot.js",
+  "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "devStart": "nodemon index.js",
+    "deploy": "node deploy-commands.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

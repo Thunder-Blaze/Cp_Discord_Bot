@@ -40,7 +40,7 @@
    ```
 4. Install Commands in Server:
    ```sh
-   node ./deploy-commands.js
+   node run deploy
    ```
 4. Run the bot:
    ```sh
