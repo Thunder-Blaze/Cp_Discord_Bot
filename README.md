@@ -56,7 +56,7 @@
     ```ini
     BOT_TOKEN=your_discord_token_here #important
     GUILD_ID=your_discord_server_id #important
-    CLIENT_ID="1338648033981759549"
+    CLIENT_ID=your_discord_bot_client_id #important
     ```
 4. Install Commands in Server:
     ```sh
