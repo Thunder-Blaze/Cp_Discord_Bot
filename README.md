@@ -1,4 +1,4 @@
-# Codeforces Verification Discord Bot
+# **<a>CP Discord Bot</a>** <i><small>in Node JS</small></i>
 
 ## Overview
 
