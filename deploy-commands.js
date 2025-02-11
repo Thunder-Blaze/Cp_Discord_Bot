@@ -39,6 +39,11 @@ const commands = [
                 .setRequired(true)
         ),
     new SlashCommandBuilder()
+        .setName('ccunverify')
+        .setDescription(
+            'Un-Verifies your CodeChef account and removes the CodeChef role'
+        ),
+    new SlashCommandBuilder()
         .setName('cfuserinfo')
         .setDescription('Prints info for the given CodeForces username')
         .addStringOption((option) =>
@@ -77,6 +82,11 @@ const commands = [
                 .setName('id')
                 .setDescription('CodeForces Username')
                 .setRequired(true)
+        ),
+    new SlashCommandBuilder()
+        .setName('cfunverify')
+        .setDescription(
+            'Un-Verifies your CodeForces account and removes the CodeForces role'
         ),
 ].map((command) => command.toJSON())
 
