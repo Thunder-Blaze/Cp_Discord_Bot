@@ -53,22 +53,22 @@ export default {
                 fields: [
                     {
                         name: 'Name',
-                        value: name, // Rating is usually a number
+                        value: name,
                         inline: false,
                     },
                     {
                         name: 'Current Rating',
-                        value: currentRating.toString(), // Rating is usually a number
+                        value: (currentRating)? currentRating.toString():"UnRated",
                         inline: false,
                     },
                     {
                         name: 'Highest Rating',
-                        value: highestRating.toString(), // Rating is usually a number
+                        value: (highestRating)? highestRating.toString():"UnRated",
                         inline: false,
                     },
                     {
                         name: 'Stars',
-                        value: stars.toString(), // Stars is usually a number
+                        value: stars || "No ★", // Stars is usually a number
                         inline: false,
                     },
                     {
@@ -78,7 +78,7 @@ export default {
                     },
                     {
                         name: 'Global Rank',
-                        value: globalRank.toString(), // Global rank is usually a number
+                        value: (globalRank)? globalRank.toString():"Not Ranked", // Global rank is usually a number
                         inline: false,
                     },
                 ],

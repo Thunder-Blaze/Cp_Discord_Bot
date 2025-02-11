@@ -88,3 +88,4 @@
 ## Info
 
 - Created by: **Shivansh Jain**
+- Also check out the same project but with Python: [In-Saiyan/CodeForces-Discord-Verification](https://github.com/In-Saiyan/CodeForces-Discord-Verification)

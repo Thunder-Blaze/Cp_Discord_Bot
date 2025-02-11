@@ -29,17 +29,17 @@ export default {
 
         try {
             const browser = await puppeteer.launch()
-            const page = await browser.newPage()
-            await page.goto(profileUrl, { waitUntil: 'networkidle2' })
-            let stars
+            const page = await browser.newPage();
+            await page.goto(profileUrl, { waitUntil: 'networkidle2' });
+            let stars;
 
-            await page.waitForSelector('.rating-star', { timeout: 10000 })
-            await page.waitForSelector('tbody tr', { timeout: 10000 })
+            await page.waitForSelector('.rating-star', { timeout: 10000 });
+            await page.waitForSelector('tbody tr', { timeout: 10000 });
 
             stars = await page.evaluate(() => {
                 console.log('well')
                 const starElement = document.querySelector('.rating-star')
-                return starElement ? starElement.innerText.trim() : 'UnRated'
+                return starElement ? starElement.innerText.trim() : 'No ★'
             })
 
             const submissions = await page.evaluate(() => {
@@ -80,6 +80,7 @@ export default {
             }
 
             let roleName = stars
+            let roleTypes = ["No ★","★", "★★", "★★★", "★★★★", "★★★★★", "★★★★★★", "★★★★★★★"]
             const role = interaction.guild.roles.cache.find(
                 (role) => role.name === roleName
             )
@@ -101,6 +102,12 @@ export default {
                     `You already have the \`CodeChef Verified\` role.`
                 )
             }
+
+            roleTypes.forEach(async (element) => {
+                if (member.roles.cache.some(role => role.name === element)) {
+                    await member.roles.remove(member.roles.cache.find(role => role.name === element))
+                }
+            })
 
             await member.roles.add(role)
             return await interaction.editReply(

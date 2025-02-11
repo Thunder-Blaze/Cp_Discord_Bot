@@ -84,12 +84,12 @@ export default {
                     },
                     {
                         name: 'Current Rating',
-                        value: rating.toString() + ' (' + rank + ')', // Rating is usually a number
+                        value: (rating || 0).toString() + ' (' + (rank || "Unrated") + ')', // Rating is usually a number
                         inline: false,
                     },
                     {
                         name: 'Max Rating',
-                        value: maxRating.toString() + ' (' + maxRank + ')', // Rating is usually a number
+                        value: (maxRating || 0).toString() + ' (' + (maxRank|| "Unrated") + ')', // Rating is usually a number
                         inline: false,
                     },
                     {

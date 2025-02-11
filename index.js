@@ -37,4 +37,4 @@ for (const file of eventFiles) {
     })
 }
 
-client.login(JSON.parse(process.env.BOT_TOKEN))
+client.login((process.env.BOT_TOKEN).toString())

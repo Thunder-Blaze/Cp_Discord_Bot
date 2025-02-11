@@ -27,8 +27,6 @@ export default {
         interaction.editReply(`Submit a Compilation Error within 1 minute...`)
         await delay(60000)
 
-        // const validRoles = ['newbie', 'pupil', 'specialist', 'expert', 'candidate master', 'master', 'international master', 'grandmaster', 'international grandmaster', 'legendary grandmaster'];
-
         try {
             const response = await fetch(apiUrl)
             let data = await response.json()
@@ -65,12 +63,18 @@ export default {
                 const tempApiUrl = `https://codeforces.com/api/user.info?handles=${handle}`
                 const tempResponse = await fetch(tempApiUrl)
                 let tempData = await tempResponse.json()
-                roleName = tempData.result[0].rank.toLowerCase()
+                if (!tempData.result[0].rank) {
+                    roleName = 'unrated'
+                } else {
+                    roleName = tempData.result[0].rank.toLowerCase()
+                }
             } catch {
                 return await interaction.editReply(
                     `An error occurred while verifying the CodeForces account. Please try again.`
                 )
             }
+
+            const roleTypes = ['newbie', 'pupil', 'specialist', 'expert', 'candidate master', 'master', 'international master', 'grandmaster', 'international grandmaster', 'legendary grandmaster'];
 
             const role = interaction.guild.roles.cache.find(
                 (role) => role.name === roleName
@@ -96,6 +100,12 @@ export default {
                     `You already have the \`CodeForces\` role.`
                 )
             }
+
+            roleTypes.forEach(async (element) => {
+                if (member.roles.cache.some(role => role.name === element)) {
+                    await member.roles.remove(member.roles.cache.find(role => role.name === element))
+                }
+            });
 
             await member.roles.add(role)
             return await interaction.editReply(
