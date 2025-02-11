@@ -1,5 +1,9 @@
 import fetch from 'node-fetch'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import { insertEntry } from '../database/insertData'
+import { getEntryByPlatformMemID } from '../database/fetchData'
+import { updateEntryByPlatformMemID } from '../database/updateData'
+
 
 async function delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms))
@@ -99,6 +103,12 @@ export default {
                 return await interaction.editReply(
                     `You already have the \`CodeForces\` role.`
                 )
+            }
+
+            if (getEntryByPlatformMemID('codeforces', member.id)) {
+                updateEntryByPlatformMemID(handle, rating, role, 'codeforces', member.id)
+            } else {
+                insertEntry(member.id, handle, 'codeforces', rating, role);
             }
 
             roleTypes.forEach(async (element) => {

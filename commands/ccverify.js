@@ -1,5 +1,9 @@
 import puppeteer from 'puppeteer'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import { insertEntry } from '../database/insertData'
+import { getEntryByPlatformMemID } from '../database/fetchData'
+import { updateEntryByPlatformMemID } from '../database/updateData'
+
 
 async function delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms))
@@ -31,15 +35,20 @@ export default {
             const browser = await puppeteer.launch()
             const page = await browser.newPage();
             await page.goto(profileUrl, { waitUntil: 'networkidle2' });
-            let stars;
+            let stars = 'No ★';
+            let rating = 0;
 
             await page.waitForSelector('.rating-star', { timeout: 10000 });
             await page.waitForSelector('tbody tr', { timeout: 10000 });
 
             stars = await page.evaluate(() => {
-                console.log('well')
                 const starElement = document.querySelector('.rating-star')
                 return starElement ? starElement.innerText.trim() : 'No ★'
+            })
+
+            rating = await page.evaluate(() => {
+                const ratingElement = document.querySelector('.rating-number')
+                return ratingElement ? parseInt(ratingElement.innerText) : 0
             })
 
             const submissions = await page.evaluate(() => {
@@ -101,6 +110,12 @@ export default {
                 return await interaction.editReply(
                     `You already have the \`CodeChef Verified\` role.`
                 )
+            }
+
+            if (getEntryByPlatformMemID('codechef', member.id)) {
+                updateEntryByPlatformMemID(handle, rating, role, 'codechef', member.id)
+            } else {
+                insertEntry(member.id, handle, 'codechef', rating, role);
             }
 
             roleTypes.forEach(async (element) => {

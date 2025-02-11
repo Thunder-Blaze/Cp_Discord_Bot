@@ -2,7 +2,7 @@ import sqlite3 from 'sqlite3'
 sqlite3.verbose()
 
 // Create a new SQLite database (it will create the database file if it doesn't exist)
-const db = new sqlite3.Database('./mydatabase.db', (err) => {
+const db = new sqlite3.Database('../data/mydatabase.db', (err) => {
     if (err) {
         console.error('Error opening database:', err)
     } else {
@@ -23,12 +23,12 @@ db.serialize(() => {
     )
 
     // Insert data into the table
-    const stmt = db.prepare(
-        'INSERT INTO users (username, platform, rating, tag) VALUES (?, ?, ?, ?)'
-    )
-    stmt.run('Alice', 'codechef', 30, 'newbie')
-    stmt.run('Bob', 'codeforces', 25, '1 star')
-    stmt.finalize()
+    // const stmt = db.prepare(
+    //     'INSERT INTO users (username, platform, rating, tag) VALUES (?, ?, ?, ?)'
+    // )
+    // stmt.run('Alice', 'codechef', 30, 'newbie')
+    // stmt.run('Bob', 'codeforces', 25, '1 star')
+    // stmt.finalize()
 
     // Query data from the table
     db.each('SELECT id, username, rating, platform FROM users', (err, row) => {
