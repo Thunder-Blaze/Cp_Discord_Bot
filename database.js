@@ -1,4 +1,5 @@
-const sqlite3 = require('sqlite3').verbose();
+import sqlite3 from 'sqlite3';
+sqlite3.verbose();
 
 // Create a new SQLite database (it will create the database file if it doesn't exist)
 const db = new sqlite3.Database('./mydatabase.db', (err) => {
@@ -11,20 +12,26 @@ const db = new sqlite3.Database('./mydatabase.db', (err) => {
 
 // Create a table if it doesn't exist
 db.serialize(() => {
-  db.run('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, rating INTEGER, tag TEXT)');
+  db.run('CREATE TABLE IF NOT EXISTS users (\
+    id INTEGER PRIMARY KEY,\
+    username TEXT,\
+    platform TEXT,\
+    rating INTEGER,\
+    tag TEXT,\
+    UNIQUE (username, platform))');
 
   // Insert data into the table
-  const stmt = db.prepare('INSERT INTO users (name, age) VALUES (?, ?)');
-  stmt.run('Alice', 30, 'newbie');
-  stmt.run('Bob', 25, 'newbie');
+  const stmt = db.prepare('INSERT INTO users (username, platform, rating, tag) VALUES (?, ?, ?, ?)');
+  stmt.run('Alice', 'codechef', 30, 'newbie');
+  stmt.run('Bob', 'codeforces', 25, '1 star');
   stmt.finalize();
 
   // Query data from the table
-  db.each('SELECT id, name, age FROM users', (err, row) => {
+  db.each('SELECT id, username, rating, platform FROM users', (err, row) => {
     if (err) {
       console.error(err);
     } else {
-      console.log(`User: ${row.name}, Age: ${row.age}`);
+      console.log(`User: ${row.username}, Rating: ${row.rating}, Platform: ${row.platform}`);
     }
   });
 });
