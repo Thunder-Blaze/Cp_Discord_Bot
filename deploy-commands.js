@@ -16,7 +16,7 @@ const commands = [
             option
                 .setName('id')
                 .setDescription('CodeChef Username')
-                .setRequired(true)
+                .setRequired(false)
         ),
     new SlashCommandBuilder()
         .setName('ccuserpfp')
@@ -25,7 +25,7 @@ const commands = [
             option
                 .setName('id')
                 .setDescription('CodeChef Username')
-                .setRequired(true)
+                .setRequired(false)
         ),
     new SlashCommandBuilder()
         .setName('ccverify')
@@ -50,7 +50,7 @@ const commands = [
             option
                 .setName('id')
                 .setDescription('CodeForces Username')
-                .setRequired(true)
+                .setRequired(false)
         ),
     new SlashCommandBuilder()
         .setName('cfuserpfp')
@@ -59,7 +59,7 @@ const commands = [
             option
                 .setName('id')
                 .setDescription('CodeForces Username')
-                .setRequired(true)
+                .setRequired(false)
         ),
     new SlashCommandBuilder()
         .setName('cfusersolved')
@@ -70,7 +70,7 @@ const commands = [
             option
                 .setName('id')
                 .setDescription('CodeForces Username')
-                .setRequired(true)
+                .setRequired(false)
         ),
     new SlashCommandBuilder()
         .setName('cfverify')

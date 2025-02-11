@@ -1,6 +1,7 @@
 import fetch from 'node-fetch'
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { ActionRowBuilder, ButtonBuilder } from 'discord.js'
+import { getEntryByPlatformMemID } from '../database/fetchData.js'
 
 export default {
     data: new SlashCommandBuilder()
@@ -16,7 +17,31 @@ export default {
         ),
     async execute(interaction) {
         await interaction.deferReply()
-        const handle = interaction.options.getString('id')
+        let handle = interaction.options.getString('id') // Get username if provided
+        const userId = interaction.user.id // Discord User ID
+        
+        if (handle[0]=='@'){
+            handle = handle.slice(1);
+            const members = await interaction.guild.members.fetch();
+            const member = members.find(m => m.user.username === handle);
+            if (member) {
+                handle = member.user.id;
+            } else {
+                return await interaction.editReply('No associated Codeforces username found for this user.');
+            }
+        }
+
+        // If no ID is provided, fetch associated username from the database
+        if (!handle) {
+            let targetId = repliedUser ? repliedUser.id : userId // Check if replying to a user, else use the command sender
+            const row = await getEntryByPlatformMemID('codechef', targetId)
+
+            if (row) {
+                handle = row.username
+            } else {
+                return await interaction.editReply('No associated Codechef username found for this user.')
+            }
+        }
 
         try {
             // Fetch user info

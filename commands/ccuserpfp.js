@@ -1,5 +1,6 @@
 import fetch from 'node-fetch'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import { getEntryByPlatformMemID } from '../database/fetchData.js'
 
 export default {
     data: new SlashCommandBuilder()
@@ -9,12 +10,26 @@ export default {
             option
                 .setName('id')
                 .setDescription('CodeChef Username')
-                .setRequired(true)
+                .setRequired(false)
         ),
     async execute(interaction) {
         await interaction.deferReply()
         // Get the handle input from the user
-        const handle = interaction.options.getString('id')
+        let handle = interaction.options.getString('id') // Get username if provided
+        const userId = interaction.user.id // Discord User ID
+        const repliedUser = interaction.options.getUser('message_reference') // If command is used as a reply
+
+        // If no ID is provided, fetch associated username from the database
+        if (!handle) {
+            let targetId = repliedUser ? repliedUser.id : userId // Check if replying to a user, else use the command sender
+            const row = await getEntryByPlatformMemID('codechef', targetId)
+
+            if (row) {
+                handle = row.username
+            } else {
+                return await interaction.editReply('No associated Codechef username found for this user.')
+            }
+        }
 
         // Make the API request to get CodeChef user data
         const apiUrl = `https://codechef-api.vercel.app/handle/${handle}`

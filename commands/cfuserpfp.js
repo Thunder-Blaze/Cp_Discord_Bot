@@ -1,5 +1,6 @@
 import fetch from 'node-fetch'
 import { SlashCommandBuilder } from '@discordjs/builders'
+import { getEntryByPlatformMemID } from '../database/fetchData.js'
 
 export default {
     data: new SlashCommandBuilder()
@@ -9,14 +10,44 @@ export default {
             option
                 .setName('id')
                 .setDescription('CodeForces Username')
-                .setRequired(true)
+                .setRequired(false)
         ),
     async execute(interaction) {
         await interaction.deferReply()
         // Get the handle input from the user
-        const handle = interaction.options.getString('id')
+        let handle = interaction.options.getString('id') // Get username if provided
+        const userId = interaction.user.id // Discord User ID
+        
+        if (handle[0]=='@'){
+            handle = handle.slice(1);
+            const members = await interaction.guild.members.fetch();
+            const member = members.find(m => m.user.username === handle);
+            if (member) {
+                repliedUser = member.user.id;
+            } else {
+                return await interaction.editReply('No associated Codeforces username found for this user.');
+            }
+            const row = await getEntryByPlatformMemID('codeforces', userId)
 
-        // Make the API request to get CodeChef user data
+            if (row) {
+                handle = row.username
+            } else {
+                return await interaction.editReply('No associated Codeforces username found for this user.')
+            }
+        }
+
+        // If no ID is provided, fetch associated username from the database
+        if (!handle) {
+            const row = await getEntryByPlatformMemID('codeforces', userId)
+
+            if (row) {
+                handle = row.username
+            } else {
+                return await interaction.editReply('No associated Codeforces username found for this user.')
+            }
+        }
+
+        // Make the API request to get Codeforces user data
         const apiUrl = `https://codeforces.com/api/user.info?handles=${handle}`
         try {
             const response = await fetch(apiUrl)
@@ -45,7 +76,7 @@ export default {
         } catch (error) {
             console.error(error)
             await interaction.editReply(
-                'There was an error while fetching the PFP from CodeChef.'
+                'There was an error while fetching the PFP from CodeForces.'
             )
         }
     },

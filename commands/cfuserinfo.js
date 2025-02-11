@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { getEntryByPlatformMemID } from '../database/fetchData'
+import { getEntryByPlatformMemID } from '../database/fetchData.js'
 
 export default {
     data: new SlashCommandBuilder()
@@ -22,7 +22,7 @@ export default {
         // If no ID is provided, fetch associated username from the database
         if (!handle) {
             let targetId = repliedUser ? repliedUser.id : userId // Check if replying to a user, else use the command sender
-            const row = getEntryByPlatformMemID('codeforces', targetId)
+            const row = await getEntryByPlatformMemID('codeforces', targetId)
 
             if (row) {
                 handle = row.username
