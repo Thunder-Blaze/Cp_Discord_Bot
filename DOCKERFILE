@@ -13,6 +13,7 @@ RUN npm install
 # Step 5: Copy the rest of the application files
 COPY . .
 
+# Step 6: Run the deploy-commands.js script to add slash commands to the server
 RUN node './deploy-commands.js'
 
 # Step 7: Define the command to run the application
