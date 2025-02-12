@@ -83,7 +83,7 @@ export default {
 
             const roleTypes = ['newbie', 'pupil', 'specialist', 'expert', 'candidate master', 'master', 'international master', 'grandmaster', 'international grandmaster', 'legendary grandmaster'];
 
-            const role = interaction.guild.roles.cache.find(
+            let role = interaction.guild.roles.cache.find(
                 (role) => role.name === roleName
             )
             if (!role) {
@@ -91,6 +91,9 @@ export default {
                     name: roleName,
                     // color: 'BLUE',
                 })
+                role = interaction.guild.roles.cache.find(
+                    (role) => role.name === roleName
+                )
             }
 
             const member = interaction.guild.members.cache.get(
