@@ -8,6 +8,7 @@ dotenv.config()
 
 // Updated intents to use GatewayIntentBits from discord.js v14+
 const client = new Client({
+    puppeteer: { args: ["--no-sandbox", "--disable-dev-shm-usage"] },
     intents: [GatewayIntentBits.Guilds], // Use GatewayIntentBits instead of Intents.FLAGS
 })
 
