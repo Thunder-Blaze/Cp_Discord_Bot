@@ -1,23 +1,8 @@
 # Step 1: Use the official Node.js image as the base image
 FROM node:18-alpine
 
-RUN apk add shadow \
-chromium \
-nss \
-freetype \
-harfbuzz \
-ca-certificates \
-ttf-freefont
-
-
-RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
-    && mkdir -p /home/pptruser/Downloads \
-    && chown -R pptruser:pptruser /home/pptruser
-
-USER pptruser
-
 # Step 2: Set the working directory inside the container
-WORKDIR /home/pptruser/app
+WORKDIR /usr/src/app
 
 # Step 3: Copy the package.json and package-lock.json (if present)
 COPY package*.json ./
