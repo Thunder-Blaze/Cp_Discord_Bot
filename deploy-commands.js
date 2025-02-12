@@ -6,106 +6,230 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
+// Define your slash commands
 const commands = [
-    new SlashCommandBuilder().setName('ping').setDescription('Ping the bot!'),
-    new SlashCommandBuilder().setName('hello').setDescription('Say hello!'),
-    new SlashCommandBuilder()
-        .setName('ccuserinfo')
-        .setDescription('Prints info for the given CodeChef username')
-        .addStringOption((option) =>
-            option
-                .setName('id')
-                .setDescription('CodeChef Username')
-                .setRequired(false)
-        ),
-    new SlashCommandBuilder()
-        .setName('ccuserpfp')
-        .setDescription('Fetches PFP for the given CodeChef username')
-        .addStringOption((option) =>
-            option
-                .setName('id')
-                .setDescription('CodeChef Username')
-                .setRequired(false)
-        ),
-    new SlashCommandBuilder()
-        .setName('ccverify')
-        .setDescription(
-            'Verifies your CodeChef account and assigns the CodeChef role'
-        )
-        .addStringOption((option) =>
-            option
-                .setName('id')
-                .setDescription('CodeChef Username')
-                .setRequired(true)
-        ),
-    new SlashCommandBuilder()
-        .setName('ccunverify')
-        .setDescription(
-            'Un-Verifies your CodeChef account and removes the CodeChef role'
-        ),
-    new SlashCommandBuilder()
-        .setName('cfuserinfo')
-        .setDescription('Prints info for the given CodeForces username')
-        .addStringOption((option) =>
-            option
-                .setName('id')
-                .setDescription('CodeForces Username')
-                .setRequired(false)
-        ),
-    new SlashCommandBuilder()
-        .setName('cfuserpfp')
-        .setDescription('Fetches PFP for the given CodeForces username')
-        .addStringOption((option) =>
-            option
-                .setName('id')
-                .setDescription('CodeForces Username')
-                .setRequired(false)
-        ),
-    new SlashCommandBuilder()
-        .setName('cfusersolved')
-        .setDescription(
-            'Prints detailed info for the given CodeForces username'
-        )
-        .addStringOption((option) =>
-            option
-                .setName('id')
-                .setDescription('CodeForces Username')
-                .setRequired(false)
-        ),
-    new SlashCommandBuilder()
-        .setName('cfverify')
-        .setDescription(
-            'Verifies your CodeForces account and assigns the CodeForces role'
-        )
-        .addStringOption((option) =>
-            option
-                .setName('id')
-                .setDescription('CodeForces Username')
-                .setRequired(true)
-        ),
-    new SlashCommandBuilder()
-        .setName('cfunverify')
-        .setDescription(
-            'Un-Verifies your CodeForces account and removes the CodeForces role'
-        ),
-].map((command) => command.toJSON())
+  {
+    name: 'hello',
+    description: 'Say hello!',
+  },
+  {
+    name: 'about',
+    description: 'About the bot!',
+  },
+  {
+    name: 'ccuserinfo',
+    description: 'Prints info for the given CodeChef username',
+    options: [
+      {
+        name: 'id',
+        description: 'CodeChef Username',
+        required: false,
+        type: 3, // Type 3 corresponds to STRING
+      },
+    ],
+  },
+  {
+    name: 'ccuserpfp',
+    description: 'Fetches PFP for the given CodeChef username',
+    options: [
+      {
+        name: 'id',
+        description: 'CodeChef Username',
+        required: false,
+        type: 3, // Type 3 corresponds to STRING
+      },
+    ],
+  },
+  {
+    name: 'ccverify',
+    description: 'Verifies your CodeChef account and assigns the CodeChef role',
+    options: [
+      {
+        name: 'id',
+        description: 'CodeChef Username',
+        required: true,
+        type: 3, // Type 3 corresponds to STRING
+      },
+    ],
+  },
+  {
+    name: 'ccunverify',
+    description: 'Un-Verifies your CodeChef account and removes the CodeChef role',
+  },
+  {
+    name: 'cfuserinfo',
+    description: 'Prints info for the given CodeForces username',
+    options: [
+      {
+        name: 'id',
+        description: 'CodeForces Username',
+        required: false,
+        type: 3, // Type 3 corresponds to STRING
+      },
+    ],
+  },
+  {
+    name: 'cfuserpfp',
+    description: 'Fetches PFP for the given CodeForces username',
+    options: [
+      {
+        name: 'id',
+        description: 'CodeForces Username',
+        required: false,
+        type: 3, // Type 3 corresponds to STRING
+      },
+    ],
+  },
+  {
+    name: 'cfusersolved',
+    description: 'Prints detailed info for the given CodeForces username',
+    options: [
+      {
+        name: 'id',
+        description: 'CodeForces Username',
+        required: false,
+        type: 3, // Type 3 corresponds to STRING
+      },
+    ],
+  },
+  {
+    name: 'cfverify',
+    description: 'Verifies your CodeForces account and assigns the CodeForces role',
+    options: [
+      {
+        name: 'id',
+        description: 'CodeForces Username',
+        required: true,
+        type: 3, // Type 3 corresponds to STRING
+      },
+    ],
+  },
+  {
+    name: 'cfunverify',
+    description: 'Un-Verifies your CodeForces account and removes the CodeForces role',
+  },
+];
 
-const rest = new REST({ version: '9' }).setToken(process.env.BOT_TOKEN)
 
-;(async () => {
+// const commands = [
+//     new SlashCommandBuilder().setName('hello').setDescription('Say hello!'),
+//     new SlashCommandBuilder().setName('about').setDescription('About the bot!'),
+//     new SlashCommandBuilder()
+//         .setName('ccuserinfo')
+//         .setDescription('Prints info for the given CodeChef username')
+//         .addStringOption((option) =>
+//             option
+//                 .setName('id')
+//                 .setDescription('CodeChef Username')
+//                 .setRequired(false)
+//         ),
+//     new SlashCommandBuilder()
+//         .setName('ccuserpfp')
+//         .setDescription('Fetches PFP for the given CodeChef username')
+//         .addStringOption((option) =>
+//             option
+//                 .setName('id')
+//                 .setDescription('CodeChef Username')
+//                 .setRequired(false)
+//         ),
+//     new SlashCommandBuilder()
+//         .setName('ccverify')
+//         .setDescription(
+//             'Verifies your CodeChef account and assigns the CodeChef role'
+//         )
+//         .addStringOption((option) =>
+//             option
+//                 .setName('id')
+//                 .setDescription('CodeChef Username')
+//                 .setRequired(true)
+//         ),
+//     new SlashCommandBuilder()
+//         .setName('ccunverify')
+//         .setDescription(
+//             'Un-Verifies your CodeChef account and removes the CodeChef role'
+//         ),
+//     new SlashCommandBuilder()
+//         .setName('cfuserinfo')
+//         .setDescription('Prints info for the given CodeForces username')
+//         .addStringOption((option) =>
+//             option
+//                 .setName('id')
+//                 .setDescription('CodeForces Username')
+//                 .setRequired(false)
+//         ),
+//     new SlashCommandBuilder()
+//         .setName('cfuserpfp')
+//         .setDescription('Fetches PFP for the given CodeForces username')
+//         .addStringOption((option) =>
+//             option
+//                 .setName('id')
+//                 .setDescription('CodeForces Username')
+//                 .setRequired(false)
+//         ),
+//     new SlashCommandBuilder()
+//         .setName('cfusersolved')
+//         .setDescription(
+//             'Prints detailed info for the given CodeForces username'
+//         )
+//         .addStringOption((option) =>
+//             option
+//                 .setName('id')
+//                 .setDescription('CodeForces Username')
+//                 .setRequired(false)
+//         ),
+//     new SlashCommandBuilder()
+//         .setName('cfverify')
+//         .setDescription(
+//             'Verifies your CodeForces account and assigns the CodeForces role'
+//         )
+//         .addStringOption((option) =>
+//             option
+//                 .setName('id')
+//                 .setDescription('CodeForces Username')
+//                 .setRequired(true)
+//         ),
+//     new SlashCommandBuilder()
+//         .setName('cfunverify')
+//         .setDescription(
+//             'Un-Verifies your CodeForces account and removes the CodeForces role'
+//         ),
+// ].map((command) => command.toJSON())
+
+// const rest = new REST({ version: '9' }).setToken(process.env.BOT_TOKEN)
+
+// ;(async () => {
+//     try {
+//         console.log('Started refreshing application (/) commands.')
+
+//         await rest.put(
+//             Routes.applicationGuildCommands(
+//                 process.env.CLIENT_ID,
+//                 process.env.GUILD_ID
+//             ),
+//             { body: commands }
+//         )
+
+//         console.log('Successfully reloaded application (/) commands.')
+//     } catch (error) {
+//         console.error(error)
+//     }
+// })()
+
+
+// Function to register commands for a single guild
+export async function registerCommands(GUILD_ID) {
+    const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN);
+  
     try {
-        console.log('Started refreshing application (/) commands.')
-
-        await rest.put(
-            Routes.applicationGuildCommands(
-                process.env.CLIENT_ID,
-                process.env.GUILD_ID
-            ),
-            { body: commands }
-        )
-
-        console.log('Successfully reloaded application (/) commands.')
+      console.log(`Started refreshing application (/) commands for guild ${GUILD_ID}.`);
+  
+      // Register commands to this guild
+      await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, GUILD_ID), {
+        body: commands,
+      });
+  
+      console.log(`Successfully reloaded commands for guild: ${GUILD_ID}`);
     } catch (error) {
-        console.error(error)
+      console.error('Error registering commands:', error);
     }
-})()
+}
