@@ -33,8 +33,21 @@ export default {
 
         try {
             const browser = await puppeteer.launch({
-                args: ['--no-sandbox', '--disable-setuid-sandbox'],
-            })
+                headless: 'new', // Ensures compatibility with latest Puppeteer versions
+                executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+                args: [
+                  '--no-sandbox',
+                  '--disable-setuid-sandbox',
+                  '--disable-dev-shm-usage',
+                  '--disable-gpu',
+                  '--disable-software-rasterizer',
+                  '--disable-extensions',
+                  '--disable-background-networking',
+                  '--disable-default-apps',
+                  '--disable-features=site-per-process',
+                ],
+                protocolTimeout: 60000, // Increase timeout to avoid Network.enable issues
+            });
             const page = await browser.newPage();
             await page.goto(profileUrl, { waitUntil: 'networkidle2' });
             let stars = 'No ★';

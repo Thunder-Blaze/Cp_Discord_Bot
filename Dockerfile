@@ -14,7 +14,7 @@ RUN apk add --no-cache \
       yarn
 
 # Tell Puppeteer to skip installing Chrome. We'll be using the installed package.
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 ENV PUPPETEER_CACHE_DIR=/home/web/.cache
 
 # Step 2: Set the working directory inside the container
