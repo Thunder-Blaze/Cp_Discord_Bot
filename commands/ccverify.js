@@ -92,11 +92,14 @@ export default {
 
             let roleName = stars
             let roleTypes = ["No ★","★", "★★", "★★★", "★★★★", "★★★★★", "★★★★★★", "★★★★★★★"]
-            const role = interaction.guild.roles.cache.find(
+            let role = interaction.guild.roles.cache.find(
                 (role) => role.name === roleName
             )
             if (!role) {
                 await interaction.guild.roles.create({ name: roleName })
+                role = interaction.guild.roles.cache.find(
+                    (role) => role.name === roleName
+                )
             }
 
             const member = interaction.guild.members.cache.get(
