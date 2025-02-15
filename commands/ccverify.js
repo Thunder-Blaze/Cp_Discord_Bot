@@ -87,8 +87,8 @@ export default {
                 }
                 return results
             })
-
-            console.log(submissions)
+            
+            await browser.close();
 
             if (
                 submissions[0].verdict == true &&
