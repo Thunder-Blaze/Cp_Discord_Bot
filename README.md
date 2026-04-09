@@ -41,44 +41,9 @@
 - Required Node packages (listed in `package.json`)
 - A Discord bot token
 
-### Setup
+### Setup and Run
 
-1. Clone the repository:
-    ```sh
-    git clone https://github.com/Thunder-Blaze/Cp_Discord_Bot.git
-    cd Cp_Discord_Bot
-    ```
-2. Install dependencies:
-    ```sh
-    npm install
-    ```
-3. Create a `.env` file and add:
-    ```ini
-    BOT_TOKEN=your_discord_token_here #important
-    GUILD_ID=your_discord_server_id #important
-    CLIENT_ID=your_discord_bot_client_id #important
-    ```
-4. Install Commands in Server:
-    ```sh
-    node run deploy
-    ```
-5. Run the bot:
-    ```sh
-    node run start
-    ```
-
-## Docker Deployment
-
-### Build and Run with Docker
-
-1. Build the Docker image:
-    ```sh
-    docker build -t cp-discord-bot .
-    ```
-2. Run the container:
-    ```sh
-    docker run -d --env-file .env cp-discord-bot
-    ```
+For contribution workflow, local setup, run commands, and Docker instructions, refer to [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Caution
 
