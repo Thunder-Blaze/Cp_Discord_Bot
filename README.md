@@ -22,6 +22,7 @@
 - Retrieves and displays user stats via `/ccuserinfo <handle>`.
 
 ## Screenshots
+
 <img src="https://github.com/user-attachments/assets/9442d0b2-2188-46b1-94e5-41edffe03ce7" width="49%">
 <img src="https://github.com/user-attachments/assets/48cb069c-01fd-4455-b43c-95ee58e5ea6f" width="49%">
 <img src="https://github.com/user-attachments/assets/bdae37e0-f1f4-4b7a-97ad-e984fc4aa72f" width="49%">
@@ -30,8 +31,6 @@
 <img src="https://github.com/user-attachments/assets/1dfc0595-8fb6-4e1b-9dce-bc5ec684c585" width="49%">
 <img src="https://github.com/user-attachments/assets/bb089be2-8d83-42e7-a80e-d22c898eb8d7" width="49%">
 <img src="https://github.com/user-attachments/assets/6a22ee40-f897-49a2-87d9-7f9c6a2323e6" width="49%">
-
-
 
 ## Installation
 

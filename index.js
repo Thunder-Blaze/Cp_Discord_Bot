@@ -2,22 +2,22 @@ import { Client, GatewayIntentBits } from 'discord.js' // Updated import
 // import { token } from './config/config.json' assert { type: 'json' };
 import fs from 'fs'
 import dotenv from 'dotenv'
-import { registerCommands } from './deploy-commands.js';
+import { registerCommands } from './deploy-commands.js'
 
 dotenv.config()
 
 // Updated intents to use GatewayIntentBits from discord.js v14+
 const client = new Client({
-    puppeteer: { args: ["--no-sandbox", "--disable-dev-shm-usage"] },
+    puppeteer: { args: ['--no-sandbox', '--disable-dev-shm-usage'] },
     intents: [GatewayIntentBits.Guilds], // Use GatewayIntentBits instead of Intents.FLAGS
 })
 
 // Event when the bot successfully joins a new guild
 client.on('guildCreate', async (guild) => {
-    console.log(`Joined a new guild: ${guild.name} (${guild.id})`);
+    console.log(`Joined a new guild: ${guild.name} (${guild.id})`)
     // Register commands as soon as the bot joins the new guild
-    await registerCommands(guild.id);
-});
+    await registerCommands(guild.id)
+})
 
 // Load commands
 client.commands = new Map()

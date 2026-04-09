@@ -1,11 +1,20 @@
-import { executeQuery } from './database.js';
+import { executeQuery } from './database.js'
 
-async function updateEntryByPlatformMemID(username, rating, tag, platform, memId) {
+async function updateEntryByPlatformMemID(
+    username,
+    rating,
+    tag,
+    platform,
+    memId
+) {
     try {
-        await executeQuery(`UPDATE users SET username = ?, rating = ?, tag = ? WHERE platform = ? AND memid = ?`, [username, rating, tag, platform, memId]);
+        await executeQuery(
+            `UPDATE users SET username = ?, rating = ?, tag = ? WHERE platform = ? AND memid = ?`,
+            [username, rating, tag, platform, memId]
+        )
     } catch (err) {
-        console.error('Error fetching user:', err);
+        console.error('Error fetching user:', err)
     }
 }
 
-export { updateEntryByPlatformMemID };
+export { updateEntryByPlatformMemID }

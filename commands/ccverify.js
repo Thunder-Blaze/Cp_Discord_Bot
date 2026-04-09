@@ -4,7 +4,6 @@ import { insertEntry } from '../database/insertData.js'
 import { getEntryByPlatformMemID } from '../database/fetchData.js'
 import { updateEntryByPlatformMemID } from '../database/updateData.js'
 
-
 async function delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms))
 }
@@ -36,25 +35,25 @@ export default {
                 headless: 'new', // Ensures compatibility with latest Puppeteer versions
                 executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
                 args: [
-                  '--no-sandbox',
-                  '--disable-setuid-sandbox',
-                  '--disable-dev-shm-usage',
-                  '--disable-gpu',
-                  '--disable-software-rasterizer',
-                  '--disable-extensions',
-                  '--disable-background-networking',
-                  '--disable-default-apps',
-                  '--disable-features=site-per-process',
+                    '--no-sandbox',
+                    '--disable-setuid-sandbox',
+                    '--disable-dev-shm-usage',
+                    '--disable-gpu',
+                    '--disable-software-rasterizer',
+                    '--disable-extensions',
+                    '--disable-background-networking',
+                    '--disable-default-apps',
+                    '--disable-features=site-per-process',
                 ],
                 protocolTimeout: 60000, // Increase timeout to avoid Network.enable issues
-            });
-            const page = await browser.newPage();
-            await page.goto(profileUrl, { waitUntil: 'networkidle2' });
-            let stars = 'No ★';
-            let rating = 0;
+            })
+            const page = await browser.newPage()
+            await page.goto(profileUrl, { waitUntil: 'networkidle2' })
+            let stars = 'No ★'
+            let rating = 0
 
-            await page.waitForSelector('.rating-star', { timeout: 10000 });
-            await page.waitForSelector('tbody tr', { timeout: 10000 });
+            await page.waitForSelector('.rating-star', { timeout: 10000 })
+            await page.waitForSelector('tbody tr', { timeout: 10000 })
 
             stars = await page.evaluate(() => {
                 const starElement = document.querySelector('.rating-star')
@@ -87,8 +86,8 @@ export default {
                 }
                 return results
             })
-            
-            await browser.close();
+
+            await browser.close()
 
             if (
                 submissions[0].verdict == true &&
@@ -104,7 +103,16 @@ export default {
             }
 
             let roleName = stars
-            let roleTypes = ["No ★","★", "★★", "★★★", "★★★★", "★★★★★", "★★★★★★", "★★★★★★★"]
+            let roleTypes = [
+                'No ★',
+                '★',
+                '★★',
+                '★★★',
+                '★★★★',
+                '★★★★★',
+                '★★★★★★',
+                '★★★★★★★',
+            ]
             let role = interaction.guild.roles.cache.find(
                 (role) => role.name === roleName
             )
@@ -129,17 +137,25 @@ export default {
                     `You already have the \`CodeChef Verified\` role.`
                 )
             }
-            
-            const user = await getEntryByPlatformMemID('codechef', member.id);
+
+            const user = await getEntryByPlatformMemID('codechef', member.id)
             if (user && user.platform == 'codechef') {
-                updateEntryByPlatformMemID(handle, rating, roleName, 'codechef', member.id)
+                updateEntryByPlatformMemID(
+                    handle,
+                    rating,
+                    roleName,
+                    'codechef',
+                    member.id
+                )
             } else {
-                insertEntry(member.id, handle, 'codechef', rating, roleName);
+                insertEntry(member.id, handle, 'codechef', rating, roleName)
             }
 
             roleTypes.forEach(async (element) => {
-                if (member.roles.cache.some(role => role.name === element)) {
-                    await member.roles.remove(member.roles.cache.find(role => role.name === element))
+                if (member.roles.cache.some((role) => role.name === element)) {
+                    await member.roles.remove(
+                        member.roles.cache.find((role) => role.name === element)
+                    )
                 }
             })
 

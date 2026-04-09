@@ -4,7 +4,6 @@ import { insertEntry } from '../database/insertData.js'
 import { getEntryByPlatformMemID } from '../database/fetchData.js'
 import { updateEntryByPlatformMemID } from '../database/updateData.js'
 
-
 async function delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms))
 }
@@ -81,7 +80,18 @@ export default {
                 )
             }
 
-            const roleTypes = ['newbie', 'pupil', 'specialist', 'expert', 'candidate master', 'master', 'international master', 'grandmaster', 'international grandmaster', 'legendary grandmaster'];
+            const roleTypes = [
+                'newbie',
+                'pupil',
+                'specialist',
+                'expert',
+                'candidate master',
+                'master',
+                'international master',
+                'grandmaster',
+                'international grandmaster',
+                'legendary grandmaster',
+            ]
 
             let role = interaction.guild.roles.cache.find(
                 (role) => role.name === roleName
@@ -111,18 +121,26 @@ export default {
                 )
             }
 
-            const user = await getEntryByPlatformMemID('codeforces', member.id);
+            const user = await getEntryByPlatformMemID('codeforces', member.id)
             if (user && user.platform == 'codeforces') {
-                updateEntryByPlatformMemID(handle, rating, roleName, 'codeforces', member.id)
+                updateEntryByPlatformMemID(
+                    handle,
+                    rating,
+                    roleName,
+                    'codeforces',
+                    member.id
+                )
             } else {
-                insertEntry(member.id, handle, 'codeforces', rating, roleName);
+                insertEntry(member.id, handle, 'codeforces', rating, roleName)
             }
 
             roleTypes.forEach(async (element) => {
-                if (member.roles.cache.some(role => role.name === element)) {
-                    await member.roles.remove(member.roles.cache.find(role => role.name === element))
+                if (member.roles.cache.some((role) => role.name === element)) {
+                    await member.roles.remove(
+                        member.roles.cache.find((role) => role.name === element)
+                    )
                 }
-            });
+            })
 
             await member.roles.add(role)
             return await interaction.editReply(

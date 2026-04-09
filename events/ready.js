@@ -1,22 +1,22 @@
 import { db } from '../database/database.js'
-import { registerCommands } from '../deploy-commands.js';
+import { registerCommands } from '../deploy-commands.js'
 
 export default {
     name: 'ready',
     once: true,
     execute(client) {
-        console.log(`Bot is online as ${client.user.tag}`);
+        console.log(`Bot is online as ${client.user.tag}`)
         // Log the IDs of all guilds the bot is in
-        let guildIds = [];
-        client.guilds.cache.forEach(guild => {
-            console.log(`Bot is in guild: ${guild.name} (${guild.id})`);
-            guildIds.push(guild.id);
-        });
+        let guildIds = []
+        client.guilds.cache.forEach((guild) => {
+            console.log(`Bot is in guild: ${guild.name} (${guild.id})`)
+            guildIds.push(guild.id)
+        })
 
         // Optionally, register commands for all guilds the bot is in
-        client.guilds.cache.forEach(guild => {
-            registerCommands(guild.id);
-        });
+        client.guilds.cache.forEach((guild) => {
+            registerCommands(guild.id)
+        })
         // Optional: You can check the database or perform actions
         // Example: Create a table if it doesn't exist
         db.run(
@@ -27,14 +27,14 @@ export default {
             platform TEXT,\
             rating TEXT,\
             tag TEXT,\
-            UNIQUE (username, platform))'
-            , (err) => {
+            UNIQUE (username, platform))',
+            (err) => {
                 if (err) {
-                    console.error('Error creating table:', err.message);
+                    console.error('Error creating table:', err.message)
                 } else {
-                    console.log('Table "users" checked/created.');
+                    console.log('Table "users" checked/created.')
                 }
             }
-        );
+        )
     },
 }

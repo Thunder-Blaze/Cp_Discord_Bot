@@ -1,3 +1,3 @@
-import { deleteAllEntries } from './deleteData.js';
+import { deleteAllEntries } from './deleteData.js'
 
-deleteAllEntries();
+deleteAllEntries()

@@ -25,18 +25,22 @@ export default {
             if (row) {
                 handle = row.username
             } else {
-                return await interaction.editReply('No associated Codeforces username found for this user.')
+                return await interaction.editReply(
+                    'No associated Codeforces username found for this user.'
+                )
             }
         }
 
-        if (handle[0]=='<'){
-            handle = handle.slice(2).slice(0,-1);
+        if (handle[0] == '<') {
+            handle = handle.slice(2).slice(0, -1)
             const row = await getEntryByPlatformMemID('codeforces', handle)
 
             if (row) {
                 handle = row.username
             } else {
-                return await interaction.editReply('No associated Codeforces username found for this user.')
+                return await interaction.editReply(
+                    'No associated Codeforces username found for this user.'
+                )
             }
         }
 

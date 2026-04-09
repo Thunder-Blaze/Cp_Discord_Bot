@@ -1,13 +1,16 @@
-import { executeQuery } from './database.js';
+import { executeQuery } from './database.js'
 
 async function getEntryByPlatformMemID(platform, memId) {
     try {
-        const user = await executeQuery(`SELECT * FROM users WHERE memid = ? AND platform = ?`, [memId, platform]);
-        return user[0] || null; // Return the first user if found, otherwise null
+        const user = await executeQuery(
+            `SELECT * FROM users WHERE memid = ? AND platform = ?`,
+            [memId, platform]
+        )
+        return user[0] || null // Return the first user if found, otherwise null
     } catch (err) {
-        console.error('Error fetching user:', err);
-        return null;
+        console.error('Error fetching user:', err)
+        return null
     }
 }
 
-export { getEntryByPlatformMemID };
+export { getEntryByPlatformMemID }

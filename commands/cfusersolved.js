@@ -19,7 +19,7 @@ export default {
         await interaction.deferReply()
         let handle = interaction.options.getString('id') // Get username if provided
         const userId = interaction.user.id // Discord User ID
-        
+
         // If no ID is provided, fetch associated username from the database
         if (!handle) {
             const row = await getEntryByPlatformMemID('codeforces', userId)
@@ -27,18 +27,22 @@ export default {
             if (row) {
                 handle = row.username
             } else {
-                return await interaction.editReply('No associated Codeforces username found for this user.')
+                return await interaction.editReply(
+                    'No associated Codeforces username found for this user.'
+                )
             }
         }
 
-        if (handle[0]=='<'){
-            handle = handle.slice(2).slice(0,-1);
+        if (handle[0] == '<') {
+            handle = handle.slice(2).slice(0, -1)
             const row = await getEntryByPlatformMemID('codeforces', handle)
 
             if (row) {
                 handle = row.username
             } else {
-                return await interaction.editReply('No associated Codeforces username found for this user.')
+                return await interaction.editReply(
+                    'No associated Codeforces username found for this user.'
+                )
             }
         }
 

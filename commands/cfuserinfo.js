@@ -17,7 +17,7 @@ export default {
         // Get the handle input from the user
         let handle = interaction.options.getString('id') // Get username if provided
         const userId = interaction.user.id // Discord User ID
-        
+
         // If no ID is provided, fetch associated username from the database
         if (!handle) {
             const row = await getEntryByPlatformMemID('codeforces', userId)
@@ -25,18 +25,22 @@ export default {
             if (row) {
                 handle = row.username
             } else {
-                return await interaction.editReply('No associated Codeforces username found for this user.')
+                return await interaction.editReply(
+                    'No associated Codeforces username found for this user.'
+                )
             }
         }
 
-        if (handle[0]=='<'){
-            handle = handle.slice(2).slice(0,-1);
+        if (handle[0] == '<') {
+            handle = handle.slice(2).slice(0, -1)
             const row = await getEntryByPlatformMemID('codeforces', handle)
 
             if (row) {
                 handle = row.username
             } else {
-                return await interaction.editReply('No associated Codeforces username found for this user.')
+                return await interaction.editReply(
+                    'No associated Codeforces username found for this user.'
+                )
             }
         }
 
@@ -108,12 +112,20 @@ export default {
                     },
                     {
                         name: 'Current Rating',
-                        value: (rating || 0).toString() + ' (' + (rank || "Unrated") + ')', // Rating is usually a number
+                        value:
+                            (rating || 0).toString() +
+                            ' (' +
+                            (rank || 'Unrated') +
+                            ')', // Rating is usually a number
                         inline: false,
                     },
                     {
                         name: 'Max Rating',
-                        value: (maxRating || 0).toString() + ' (' + (maxRank|| "Unrated") + ')', // Rating is usually a number
+                        value:
+                            (maxRating || 0).toString() +
+                            ' (' +
+                            (maxRank || 'Unrated') +
+                            ')', // Rating is usually a number
                         inline: false,
                     },
                     {

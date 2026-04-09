@@ -101,8 +101,8 @@ Keep changes focused and avoid mixing refactors with feature work unless needed.
 
 - Create a feature/fix branch from `main`.
 - Use clear commit messages, for example:
-  - `fix(cfverify): validate CE submission timestamp correctly`
-  - `feat(database): add unique index for platform/member pair`
+    - `fix(cfverify): validate CE submission timestamp correctly`
+    - `feat(database): add unique index for platform/member pair`
 
 ## Pull Request Checklist
 
@@ -113,9 +113,9 @@ Before opening a PR, confirm:
 - New behavior is documented in README or command help text if needed
 - You tested the changed command/event flow on a Discord test server
 - PR description includes:
-  - What changed
-  - Why it changed
-  - How to test
+    - What changed
+    - Why it changed
+    - How to test
 
 ## Reporting Bugs and Requesting Features
 

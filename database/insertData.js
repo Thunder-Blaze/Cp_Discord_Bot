@@ -1,14 +1,14 @@
-import { db } from './database.js';
+import { db } from './database.js'
 
 function insertEntry(memId, userName, platform, rating, tag) {
-    const query = `INSERT INTO users (memid, username, platform, rating, tag) VALUES (?, ?, ?, ?, ?)`;
-    db.run(query, [memId, userName, platform, rating, tag], function(err) {
+    const query = `INSERT INTO users (memid, username, platform, rating, tag) VALUES (?, ?, ?, ?, ?)`
+    db.run(query, [memId, userName, platform, rating, tag], function (err) {
         if (err) {
-            console.error('Error inserting user:', err.message);
+            console.error('Error inserting user:', err.message)
         } else {
-            console.log(`User inserted with ${platform} username: ${userName}`);
+            console.log(`User inserted with ${platform} username: ${userName}`)
         }
-    });
+    })
 }
 
-export { insertEntry };
+export { insertEntry }
